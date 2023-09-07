@@ -1,9 +1,3 @@
-solution with following limits:
-```
-no cross-region
-no git-ops
-```
-
 ```
 kubectl label namespace dev elbv2.k8s.aws/pod-readiness-gate-inject=enabled
 
