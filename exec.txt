@@ -1,0 +1,20 @@
+[ec2-user@ip-10-100-3-76 location-v1.0]$ ./location-arm64 
+Usage: ./main.go -tokenEndpoint=<string> -region=<string>
+  -region string
+        region code (default "us-east-1")
+  -tokenEndpoint string
+        token endpoint
+
+[ec2-user@ip-10-100-3-76 token-v1.0]$ ./token-arm64 
+Usage: ./main.go -redisEndpoint=<string>
+  -redisEndpoint string
+        redis endpoint
+
+[ec2-user@ip-10-100-3-76 unicorn-v1.0]$ ./unicorn-arm64 
+Usage: ./main.go -secretName=<string> -region=<string>
+  -region string
+        Secrets manager's region (default "us-east-1")
+  -secretName string
+        Secrets manager's name
+  -tokenEndpoint string
+        The endpoint of token api

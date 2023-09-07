@@ -1,0 +1,76 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: us-unicorn-cluster
+  region: us-east-1
+  version: '1.26'
+
+iam:
+  withOIDC: true
+  serviceAccounts:
+    - metadata:
+        name: location
+        namespace: dev
+      attachPolicyARNs:
+        - arn:aws:iam::790946953677:policy/unicorn-policy-location
+    - metadata:
+        name: unicorn
+        namespace: dev
+      attachPolicyARNs:
+        - arn:aws:iam::790946953677:policy/unicorn-policy-unicorn
+
+privateCluster:
+  enabled: true
+  additionalEndpointServices:
+    - autoscaling
+    - logs
+
+vpc:
+  id: vpc-022877c7478894dd9
+  subnets:
+    private:
+      ap-northeast-2a:
+        id: subnet-05bd58481b6de1b3e
+      ap-northeast-2b:
+        id: subnet-02a779b659ca8700f
+      ap-northeast-2c:
+        id: subnet-03a10e6f031c5441f
+
+managedNodeGroups:
+  - name: us-unicorn-nodegroup-tools
+    minSize: 2
+    desiredCapacity: 2
+    maxSize: 16
+    labels:
+      unicorn/dedicated: tool
+    instanceType: c6g.large
+    amiFamily: Bottlerocket
+    privateNetworking: true
+    taints:
+      - key: dedicated
+        value: tool
+        effect: NoSchedule
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+  - name: us-unicorn-nodegroup-apps
+    labels:
+      unicorn/dedicated: apps
+    instanceType: c6g.xlarge
+    taints:
+      - key: dedicated
+        value: app
+        effect: NoSchedule
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 16
+    privateNetworking: true
+    amiFamily: Bottlerocket
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+
+cloudWatch:
+  clusterLogging:
+    enableTypes: ["*"]

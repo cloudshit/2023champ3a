@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: dev
+  name: status
+spec:
+  replicas: 2
+  minReadySeconds: 5
+  tolerations:
+    - effect: NoSchedule
+      key: dedicated
+      operator: Equal
+      value: app
+  selector:
+    matchLabels:
+      app: status
+  template:
+    metadata:
+      labels:
+        app: status
+    spec:
+      readinessGates:
+        - conditionType: target-health.alb.ingress.k8s.aws/ingress_status_80
+      containers:
+      - name: webapp
+        image: 790946953677.dkr.ecr.us-east-1.amazonaws.com/status:latest
+        livenessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 8080
+          periodSeconds: 1
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 20"]
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: status
+  namespace: dev
+spec:
+  selector:
+    app: status
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: status
+  namespace: dev
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: status
+  minReplicas: 2
+  maxReplicas: 64
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 60
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 40
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 40
