@@ -3,6 +3,7 @@ resource "aws_dynamodb_table" "db" {
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "city"
   range_key      = "unicornID"
+  stream_enabled = true
 
   server_side_encryption {
     enabled = true

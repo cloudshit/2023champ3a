@@ -52,7 +52,7 @@ EOF
 }
 
 resource "aws_iam_policy" "unicorn" {
-  name = "unicorn-policy-unicorn"
+  name = "us-unicorn-policy-unicorn"
   policy = <<EOF
 {
     "Version": "2012-10-17",

@@ -67,6 +67,7 @@ module "main" {
 module "secondary" {
   source = "./secondary"
   global_cluster_id = aws_rds_global_cluster.global.id
+  db_password = module.main.db_password
   global_replication_group_id = aws_elasticache_global_replication_group.global.id
   providers = {
     aws = aws.secondary

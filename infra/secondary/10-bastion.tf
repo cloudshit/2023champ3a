@@ -79,7 +79,7 @@ resource "aws_instance" "bastion" {
   iam_instance_profile = aws_iam_instance_profile.bastion.name
   key_name = aws_key_pair.keypair.key_name
   
-  ami = "ami-0453898e98046c639"
+  ami = "ami-084e92d3e117f7692"
 
   tags = {
     Name = "ap-unicorn-bastion"

@@ -22,7 +22,7 @@ resource "aws_db_subnet_group" "db" {
 
 resource "aws_rds_cluster_parameter_group" "pg" {
   name   = "ap-unicorn-pg"
-  family = "aurora-mysql5.7"
+  family = "aurora-mysql8.0"
 
   parameter {
     name  = "binlog_format"    
@@ -37,12 +37,6 @@ resource "aws_rds_cluster_parameter_group" "pg" {
   }
 }
 
-resource "random_password" "db_pass" {
-  length           = 16
-  special          = true
-  override_special = "!#$%&*()-_=+[]{}<>:?"
-}
-
 resource "aws_rds_cluster" "db" {
   cluster_identifier          = "ap-unicorn-mysql-cluster"
   database_name               = "unicorn"
@@ -50,8 +44,7 @@ resource "aws_rds_cluster" "db" {
   db_subnet_group_name = aws_db_subnet_group.db.name
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.pg.name
   global_cluster_identifier = var.global_cluster_id
-  master_username             = "unicorn"
-  master_password = random_password.db_pass.result
+  enable_global_write_forwarding = true
   vpc_security_group_ids = [aws_security_group.db.id]
   skip_final_snapshot = true
   storage_encrypted = true
@@ -74,7 +67,7 @@ resource "aws_secretsmanager_secret_version" "db" {
   secret_id     = aws_secretsmanager_secret.db.id
   secret_string = jsonencode({
     "username" = aws_rds_cluster.db.master_username
-    "password" = random_password.db_pass.result
+    "password" = var.db_password
     "engine" =  "mysql"
     "host" = aws_rds_cluster.db.endpoint
     "port" = aws_rds_cluster.db.port

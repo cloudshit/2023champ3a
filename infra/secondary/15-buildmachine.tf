@@ -67,7 +67,7 @@ resource "aws_instance" "buildmachine" {
   iam_instance_profile = aws_iam_instance_profile.buildmachine.name
   key_name = aws_key_pair.keypair.key_name
   
-  ami = "ami-0a27863587713655c"
+  ami = "ami-06af60cca22554104"
 
   tags = {
     Name = "ap-unicorn-buildmachine"

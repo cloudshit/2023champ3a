@@ -29,7 +29,7 @@ resource "random_password" "db_pass" {
 
 resource "aws_rds_cluster_parameter_group" "pg" {
   name   = "us-unicorn-pg"
-  family = "aurora-mysql5.7"
+  family = "aurora-mysql8.0"
 
   parameter {
     name  = "binlog_format"    
@@ -46,7 +46,6 @@ resource "aws_rds_cluster_parameter_group" "pg" {
 
 resource "aws_rds_cluster" "db" {
   cluster_identifier          = "us-unicorn-mysql-cluster"
-  database_name               = "unicorn"
   availability_zones        = ["us-east-1a", "us-east-1b", "us-east-1c"]
   db_subnet_group_name = aws_db_subnet_group.db.name
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.pg.name
@@ -82,4 +81,8 @@ resource "aws_secretsmanager_secret_version" "db" {
     "dbClusterIdentifier" = aws_rds_cluster.db.cluster_identifier
     "dbname" = aws_rds_cluster.db.database_name
   })
+}
+
+output db_password {
+  value = random_password.db_pass.result
 }

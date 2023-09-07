@@ -35,7 +35,7 @@ resource "aws_route" "public" {
 
 resource "aws_subnet" "public_a" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.100.25.64/26"
+  cidr_block = "10.101.25.64/26"
   availability_zone = "ap-northeast-2a"
   map_public_ip_on_launch = true
 
@@ -47,7 +47,7 @@ resource "aws_subnet" "public_a" {
 
 resource "aws_subnet" "public_b" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.100.25.128/26"
+  cidr_block = "10.101.25.128/26"
   availability_zone = "ap-northeast-2b"
   map_public_ip_on_launch = true
 
@@ -59,7 +59,7 @@ resource "aws_subnet" "public_b" {
 
 resource "aws_subnet" "public_c" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.100.25.192/26"
+  cidr_block = "10.101.25.192/26"
   availability_zone = "ap-northeast-2c"
   map_public_ip_on_launch = true
 
@@ -175,7 +175,7 @@ resource "aws_route" "private_c" {
 
 resource "aws_subnet" "private_a" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.100.26.0/26"
+  cidr_block = "10.101.26.0/26"
   availability_zone = "ap-northeast-2a"
 
   tags = {
@@ -186,7 +186,7 @@ resource "aws_subnet" "private_a" {
 
 resource "aws_subnet" "private_b" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.100.26.64/26"
+  cidr_block = "10.101.26.64/26"
   availability_zone = "ap-northeast-2b"
 
   tags = {
@@ -197,7 +197,7 @@ resource "aws_subnet" "private_b" {
 
 resource "aws_subnet" "private_c" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.100.26.128/26"
+  cidr_block = "10.101.26.128/26"
   availability_zone = "ap-northeast-2c"
 
   tags = {

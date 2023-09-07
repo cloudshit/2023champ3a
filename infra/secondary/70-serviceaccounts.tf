@@ -1,5 +1,5 @@
 resource "aws_iam_policy" "unicorn" {
-  name = "unicorn-policy-unicorn"
+  name = "ap-unicorn-policy-unicorn"
   policy = <<EOF
 {
     "Version": "2012-10-17",

@@ -37,3 +37,4 @@ data "http" "myip" {
 
 variable global_cluster_id {}
 variable global_replication_group_id {}
+variable db_password {}
