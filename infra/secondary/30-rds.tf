@@ -48,7 +48,7 @@ resource "aws_rds_cluster" "db" {
   vpc_security_group_ids = [aws_security_group.db.id]
   skip_final_snapshot = true
   storage_encrypted = true
-  kms_key_id = aws_kms_replica_key.db.id
+  kms_key_id = aws_kms_replica_key.db.arn
   engine = "aurora-mysql"
 }
 

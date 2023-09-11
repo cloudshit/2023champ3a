@@ -87,15 +87,12 @@ resource "aws_route_table_association" "public_c" {
 // -- private
 
 resource "aws_eip" "private_a" {
-  vpc = true
 }
 
 resource "aws_eip" "private_b" {
-  vpc = true
 }
 
-resource "aws_eip" "private_c" {
-  vpc = true 
+resource "aws_eip" "private_c" { 
 }
 
 resource "aws_nat_gateway" "private_a" {

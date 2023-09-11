@@ -47,7 +47,7 @@ resource "aws_rds_cluster" "db" {
   master_username             = "unicorn"
   master_password = var.db_password
   vpc_security_group_ids = [aws_security_group.db.id]
-  kms_key_id = aws_kms_key.db.id
+  kms_key_id = aws_kms_key.db.arn
   skip_final_snapshot = true
   storage_encrypted = true
   engine = "aurora-mysql"
