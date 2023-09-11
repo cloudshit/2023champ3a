@@ -39,3 +39,4 @@ variable primary_db_kms {}
 variable global_cluster_id {}
 variable global_replication_group_id {}
 variable db_password {}
+variable codecommit_repository {}

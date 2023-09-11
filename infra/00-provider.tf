@@ -71,6 +71,7 @@ module "secondary" {
   db_password = random_password.db_pass.result
   global_replication_group_id = aws_elasticache_global_replication_group.global.id
   primary_db_kms = module.main.primary_db_kms
+  codecommit_repository = module.main.codecommit_repository
   providers = {
     aws = aws.secondary
     tls = tls

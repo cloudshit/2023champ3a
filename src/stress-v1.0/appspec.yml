@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+file_exists_behavior: OVERWRITE
+files:
+  - source: / 
+    destination: /app
+hooks:
+  ApplicationStart:
+    - location: /deploy-stress.sh
+      runas: ec2-user
