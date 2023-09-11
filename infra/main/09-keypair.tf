@@ -10,5 +10,5 @@ resource "aws_key_pair" "keypair" {
 
 resource "local_file" "keypair" {
   content = tls_private_key.rsa.private_key_pem
-  filename = "../temp/keypair.pem"
+  filename = "../temp/keypair-us.pem"
 }

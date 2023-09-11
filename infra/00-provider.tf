@@ -55,6 +55,7 @@ provider "http" {
 module "main" {
   source = "./main"
   global_cluster_id = aws_rds_global_cluster.global.id
+  db_password = random_password.db_pass.result
   providers = {
     aws = aws.main
     tls = tls
@@ -67,8 +68,9 @@ module "main" {
 module "secondary" {
   source = "./secondary"
   global_cluster_id = aws_rds_global_cluster.global.id
-  db_password = module.main.db_password
+  db_password = random_password.db_pass.result
   global_replication_group_id = aws_elasticache_global_replication_group.global.id
+  primary_db_kms = module.main.primary_db_kms
   providers = {
     aws = aws.secondary
     tls = tls

@@ -38,8 +38,8 @@ resource "aws_rds_cluster_parameter_group" "pg" {
 }
 
 resource "aws_rds_cluster" "db" {
+  apply_immediately = true
   cluster_identifier          = "ap-unicorn-mysql-cluster"
-  database_name               = "unicorn"
   availability_zones        = ["ap-northeast-2a", "ap-northeast-2b", "ap-northeast-2c"]
   db_subnet_group_name = aws_db_subnet_group.db.name
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.pg.name
@@ -48,6 +48,7 @@ resource "aws_rds_cluster" "db" {
   vpc_security_group_ids = [aws_security_group.db.id]
   skip_final_snapshot = true
   storage_encrypted = true
+  kms_key_id = aws_kms_replica_key.db.id
   engine = "aurora-mysql"
 }
 
@@ -74,4 +75,10 @@ resource "aws_secretsmanager_secret_version" "db" {
     "dbClusterIdentifier" = aws_rds_cluster.db.cluster_identifier
     "dbname" = aws_rds_cluster.db.database_name
   })
+}
+
+resource "aws_kms_replica_key" "db" {
+  description             = "Multi-Region replica key"
+  deletion_window_in_days = 7
+  primary_key_arn         = var.primary_db_kms
 }

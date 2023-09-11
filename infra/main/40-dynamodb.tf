@@ -4,6 +4,7 @@ resource "aws_dynamodb_table" "db" {
   hash_key       = "city"
   range_key      = "unicornID"
   stream_enabled = true
+  stream_view_type = "NEW_AND_OLD_IMAGES"
 
   server_side_encryption {
     enabled = true

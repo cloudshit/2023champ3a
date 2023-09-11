@@ -20,13 +20,6 @@ resource "aws_db_subnet_group" "db" {
   ]
 }
 
-resource "random_password" "db_pass" {
-  length           = 16
-  special          = true
-  override_special = "!#$%&*()-_=+[]{}<>:?"
-}
-
-
 resource "aws_rds_cluster_parameter_group" "pg" {
   name   = "us-unicorn-pg"
   family = "aurora-mysql8.0"
@@ -45,14 +38,16 @@ resource "aws_rds_cluster_parameter_group" "pg" {
 }
 
 resource "aws_rds_cluster" "db" {
+  apply_immediately = true
   cluster_identifier          = "us-unicorn-mysql-cluster"
   availability_zones        = ["us-east-1a", "us-east-1b", "us-east-1c"]
   db_subnet_group_name = aws_db_subnet_group.db.name
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.pg.name
   global_cluster_identifier = var.global_cluster_id
   master_username             = "unicorn"
-  master_password = random_password.db_pass.result
+  master_password = var.db_password
   vpc_security_group_ids = [aws_security_group.db.id]
+  kms_key_id = aws_kms_key.db.id
   skip_final_snapshot = true
   storage_encrypted = true
   engine = "aurora-mysql"
@@ -74,7 +69,7 @@ resource "aws_secretsmanager_secret_version" "db" {
   secret_id     = aws_secretsmanager_secret.db.id
   secret_string = jsonencode({
     "username" = aws_rds_cluster.db.master_username
-    "password" = random_password.db_pass.result
+    "password" = var.db_password
     "engine" =  "mysql"
     "host" = aws_rds_cluster.db.endpoint
     "port" = aws_rds_cluster.db.port
@@ -83,6 +78,12 @@ resource "aws_secretsmanager_secret_version" "db" {
   })
 }
 
-output db_password {
-  value = random_password.db_pass.result
+resource "aws_kms_key" "db" {
+  description             = "Multi-Region primary key"
+  deletion_window_in_days = 7
+  multi_region            = true
+}
+
+output "primary_db_kms" {
+  value = aws_kms_key.db.arn
 }
