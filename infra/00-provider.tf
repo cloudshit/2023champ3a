@@ -56,6 +56,7 @@ module "main" {
   source = "./main"
   global_cluster_id = aws_rds_global_cluster.global.id
   db_password = random_password.db_pass.result
+  ap_codepipeline_bucket = module.secondary.ap_codepipeline_bucket
   providers = {
     aws = aws.main
     tls = tls
