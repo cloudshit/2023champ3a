@@ -20,8 +20,6 @@ spec:
           operator: Equal
           value: app
       serviceAccount: unicorn
-      readinessGates:
-        - conditionType: target-health.alb.ingress.k8s.aws/ingress_unicorn_80
       containers:
       - name: webapp
         image: 790946953677.dkr.ecr.us-east-1.amazonaws.com/unicorn:latest

@@ -6,20 +6,6 @@ metadata:
   region: us-east-1
   version: '1.26'
 
-iam:
-  withOIDC: true
-  serviceAccounts:
-    - metadata:
-        name: location
-        namespace: dev
-      attachPolicyARNs:
-        - arn:aws:iam::790946953677:policy/unicorn-policy-location
-    - metadata:
-        name: unicorn
-        namespace: dev
-      attachPolicyARNs:
-        - arn:aws:iam::790946953677:policy/us-unicorn-policy-unicorn
-
 privateCluster:
   enabled: true
   additionalEndpointServices:

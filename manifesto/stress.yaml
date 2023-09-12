@@ -19,8 +19,6 @@ spec:
           key: dedicated
           operator: Equal
           value: app
-      readinessGates:
-        - conditionType: target-health.alb.ingress.k8s.aws/ingress_stress_80
       containers:
       - name: webapp
         image: 790946953677.dkr.ecr.us-east-1.amazonaws.com/stress:latest
