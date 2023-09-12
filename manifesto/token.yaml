@@ -6,11 +6,6 @@ metadata:
 spec:
   minReadySeconds: 5
   replicas: 2
-  tolerations:
-    - effect: NoSchedule
-      key: dedicated
-      operator: Equal
-      value: app
   selector:
     matchLabels:
       app: token
@@ -19,6 +14,11 @@ spec:
       labels:
         app: token
     spec:
+      tolerations:
+        - effect: NoSchedule
+          key: dedicated
+          operator: Equal
+          value: app
       containers:
       - name: webapp
         image: 790946953677.dkr.ecr.us-east-1.amazonaws.com/token:latest

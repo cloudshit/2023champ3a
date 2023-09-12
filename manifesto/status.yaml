@@ -6,11 +6,6 @@ metadata:
 spec:
   replicas: 2
   minReadySeconds: 5
-  tolerations:
-    - effect: NoSchedule
-      key: dedicated
-      operator: Equal
-      value: app
   selector:
     matchLabels:
       app: status
@@ -19,6 +14,11 @@ spec:
       labels:
         app: status
     spec:
+      tolerations:
+        - effect: NoSchedule
+          key: dedicated
+          operator: Equal
+          value: app
       readinessGates:
         - conditionType: target-health.alb.ingress.k8s.aws/ingress_status_80
       containers:

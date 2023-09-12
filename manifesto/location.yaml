@@ -6,11 +6,6 @@ metadata:
 spec:
   replicas: 2
   minReadySeconds: 5
-  tolerations:
-    - effect: NoSchedule
-      key: dedicated
-      operator: Equal
-      value: app
   selector:
     matchLabels:
       app: location
@@ -19,6 +14,11 @@ spec:
       labels:
         app: location
     spec:
+      tolerations:
+        - effect: NoSchedule
+          key: dedicated
+          operator: Equal
+          value: app
       serviceAccount: location
       terminationGracePeriodSeconds: 60
       readinessGates:
