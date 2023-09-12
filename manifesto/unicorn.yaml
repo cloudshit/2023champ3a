@@ -6,11 +6,6 @@ metadata:
 spec:
   replicas: 2
   minReadySeconds: 5
-  tolerations:
-    - effect: NoSchedule
-      key: dedicated
-      operator: Equal
-      value: app
   selector:
     matchLabels:
       app: unicorn
@@ -19,6 +14,11 @@ spec:
       labels:
         app: unicorn
     spec:
+      tolerations:
+        - effect: NoSchedule
+          key: dedicated
+          operator: Equal
+          value: app
       serviceAccount: unicorn
       readinessGates:
         - conditionType: target-health.alb.ingress.k8s.aws/ingress_unicorn_80
@@ -39,7 +39,7 @@ spec:
           - -region
           - us-east-1
           - -secretName
-          - unicorn/dbcred20230902005559248500000001
+          - unicorn/dbcred20230912024422651800000002
           - -tokenEndpoint
           - http://token.dev.svc.cluster.local
         resources:

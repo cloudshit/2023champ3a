@@ -18,7 +18,7 @@ iam:
         name: unicorn
         namespace: dev
       attachPolicyARNs:
-        - arn:aws:iam::790946953677:policy/unicorn-policy-unicorn
+        - arn:aws:iam::790946953677:policy/us-unicorn-policy-unicorn
 
 privateCluster:
   enabled: true
@@ -27,15 +27,15 @@ privateCluster:
     - logs
 
 vpc:
-  id: vpc-022877c7478894dd9
+  id: vpc-0f01b30c1a1cdaac3
   subnets:
     private:
       ap-northeast-2a:
-        id: subnet-05bd58481b6de1b3e
+        id: subnet-0f516155e6856e88d
       ap-northeast-2b:
-        id: subnet-02a779b659ca8700f
+        id: subnet-0479af4eaadc4534d
       ap-northeast-2c:
-        id: subnet-03a10e6f031c5441f
+        id: subnet-0d05800509573228b
 
 managedNodeGroups:
   - name: us-unicorn-nodegroup-tools
