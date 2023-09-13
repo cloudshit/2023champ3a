@@ -65,6 +65,12 @@ resource "aws_rds_cluster_parameter_group" "pg" {
     value = 1
     apply_method = "pending-reboot"
   }
+
+  parameter {
+    name = "aurora_replica_read_consistency"
+    value = "SESSION"
+    apply_method = "pending-reboot"
+  }
 }
 
 resource "aws_rds_cluster" "db" {
@@ -106,7 +112,7 @@ resource "aws_secretsmanager_secret_version" "db" {
     "username" = aws_rds_cluster.db.master_username
     "password" = var.db_password
     "engine" =  "mysql"
-    "host" = aws_rds_cluster.db.endpoint
+    "host" = aws_rds_cluster.db.reader_endpoint
     "port" = aws_rds_cluster.db.port
     "dbClusterIdentifier" = aws_rds_cluster.db.cluster_identifier
     "dbname" = aws_rds_cluster.db.database_name

@@ -3,6 +3,8 @@ kubectl label namespace dev elbv2.k8s.aws/pod-readiness-gate-inject=enabled
 kubectl set env daemonset aws-node -n kube-system ENABLE_POD_ENI=true
 kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING_MODE=standard
 
+SET aurora_replica_read_consistency = 'session';
+
 eksctl create iamserviceaccount \
   --cluster=us-unicorn-cluster \
   --namespace=dev \
