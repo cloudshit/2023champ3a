@@ -126,11 +126,6 @@ metadata:
     app: cluster-autoscaler
 spec:
   replicas: 1
-  tolerations:
-    - effect: NoSchedule
-      key: dedicated
-      operator: Equal
-      value: tool
   selector:
     matchLabels:
       app: cluster-autoscaler
@@ -142,6 +137,11 @@ spec:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '8085'
     spec:
+      tolerations:
+        - effect: NoSchedule
+          key: dedicated
+          operator: Equal
+          value: tool
       priorityClassName: system-cluster-critical
       securityContext:
         runAsNonRoot: true

@@ -1,3 +1,17 @@
+apiVersion: vpcresources.k8s.aws/v1beta1
+kind: SecurityGroupPolicy
+metadata:
+  name: token
+  namespace: dev
+spec:
+  podSelector: 
+    matchLabels:
+      app: token
+  securityGroups:
+    groupIds:
+      - sg-09a10cce206274d70
+      - sg-09ff7f198e954a459
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -22,15 +36,10 @@ spec:
       containers:
       - name: webapp
         image: 790946953677.dkr.ecr.ap-northeast-2.amazonaws.com/token:latest
-        livenessProbe:
-          httpGet:
-            path: /healthcheck
-            port: 8080
-          periodSeconds: 1
         command:
           - ./app
           - -redisEndpoint
-          - clustercfg.ap-unicorn-redis-cluster.tkeulv.use1.cache.amazonaws.com:6379
+          - clustercfg.ap-unicorn-redis-cluster.c6cgsw.apn2.cache.amazonaws.com:6379
         resources:
           limits:
             cpu: 100m
