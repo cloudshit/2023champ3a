@@ -1,3 +1,2 @@
 #!/bin/bash
-cd /app
-kubectl apply 
+kubectl rollout restart -n dev deploy/stress
