@@ -148,7 +148,7 @@ resource "aws_cloudwatch_event_rule" "event" {
        "referenceUpdated"
       ],
      "referenceType":["branch"],
-     "referenceName": ["upstream"]
+     "referenceName": ["main"]
   }
 }
 EOF
