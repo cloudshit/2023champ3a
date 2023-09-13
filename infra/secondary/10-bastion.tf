@@ -97,7 +97,7 @@ resource "aws_instance" "bastion" {
     tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
     mv /tmp/eksctl /usr/local/bin
 
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    curl -LO "https://dl.k8s.io/release/v1.26.8/bin/linux/amd64/kubectl"
     install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
@@ -105,7 +105,7 @@ resource "aws_instance" "bastion" {
     ./get_helm.sh
 
     yum install -y jq curl git mysql
-    git clone https://github.com/cloudshit/2023champ3.git /home/ec2-user/2023champ3
+    git clone https://github.com/cloudshit/2023champ3a.git /home/ec2-user/2023champ3
     chown ec2-user:ec2-user -R /home/ec2-user/2023champ3
   EOF
 }

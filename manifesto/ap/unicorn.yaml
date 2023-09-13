@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: dev
+  name: unicorn
+spec:
+  replicas: 2
+  minReadySeconds: 5
+  selector:
+    matchLabels:
+      app: unicorn
+  template:
+    metadata:
+      labels:
+        app: unicorn
+    spec:
+      tolerations:
+        - effect: NoSchedule
+          key: dedicated
+          operator: Equal
+          value: app
+      serviceAccount: unicorn
+      containers:
+      - name: webapp
+        image: 790946953677.dkr.ecr.ap-notheast-2.amazonaws.com/unicorn:latest
+        livenessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 8080
+          periodSeconds: 1
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 20"]
+        command:
+          - ./app
+          - -region
+          - ap-notheast-2
+          - -secretName
+          - unicorn/dbcred20230912024422651800000002
+          - -tokenEndpoint
+          - http://token.dev.svc.cluster.local
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unicorn
+  namespace: dev
+spec:
+  selector:
+    app: unicorn
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: unicorn
+  namespace: dev
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: unicorn
+  minReplicas: 2
+  maxReplicas: 64
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 60
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 40
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 40

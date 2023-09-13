@@ -83,7 +83,7 @@ resource "aws_instance" "buildmachine" {
     usermod -aG docker ec2-user
     systemctl enable --now docker
 
-    git clone https://github.com/cloudshit/2023champ3.git /home/ec2-user/2023champ3
+    git clone https://github.com/cloudshit/2023champ3a.git /home/ec2-user/2023champ3
     chown ec2-user:ec2-user -R /home/ec2-user/2023champ3
   EOF
 }
