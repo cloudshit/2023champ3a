@@ -56,9 +56,24 @@ resource "aws_codepipeline" "codepipeline" {
     name = "Deploy"
 
     action {
-      name            = "Deploy"
+      name            = "Deploy-us-east-1"
       category        = "Deploy"
       owner           = "AWS"
+      provider        = "CodeDeploy"
+      input_artifacts = ["source_output"]
+      version         = "1"
+
+      configuration = {
+        ApplicationName = aws_codedeploy_app.app.name
+        DeploymentGroupName = aws_codedeploy_deployment_group.dg.deployment_group_name
+      }
+    }
+
+    action {
+      name            = "Deploy-ap-northeast-2"
+      category        = "Deploy"
+      owner           = "AWS"
+      region = "ap-northeast-2"
       provider        = "CodeDeploy"
       input_artifacts = ["source_output"]
       version         = "1"

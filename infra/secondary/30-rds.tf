@@ -3,6 +3,36 @@ resource "aws_security_group" "db" {
   description = "Allow database traffic"
   vpc_id      = aws_vpc.main.id
 
+  ingress {
+    protocol = "tcp"
+    security_groups = [
+      aws_security_group.dbrecv.id
+    ]
+    from_port = "3306"
+    to_port = "3306"
+  }
+
+
+  lifecycle {
+    ignore_changes = [
+      ingress,
+      egress
+    ]
+  }
+}
+
+resource "aws_security_group" "dbrecv" {
+  name        = "ap-unicorn-sg-dbrecv"
+  description = "Allow database traffic"
+  vpc_id      = aws_vpc.main.id
+  
+  egress {
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port = "3306"
+    to_port = "3306"
+  }
+  
   lifecycle {
     ignore_changes = [
       ingress,
@@ -50,6 +80,12 @@ resource "aws_rds_cluster" "db" {
   storage_encrypted = true
   kms_key_id = aws_kms_replica_key.db.arn
   engine = "aurora-mysql"
+
+  lifecycle {
+    ignore_changes = [
+      replication_source_identifier
+    ]
+  }
 }
 
 resource "aws_rds_cluster_instance" "db" {

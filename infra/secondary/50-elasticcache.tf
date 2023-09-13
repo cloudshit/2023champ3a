@@ -3,6 +3,35 @@ resource "aws_security_group" "redis" {
   description = "Allow redis traffic"
   vpc_id      = aws_vpc.main.id
 
+  ingress {
+    protocol = "tcp"
+    security_groups = [
+      aws_security_group.redisrecv.id
+    ]
+    from_port = "6379"
+    to_port = "6379"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      ingress,
+      egress
+    ]
+  }
+}
+
+resource "aws_security_group" "redisrecv" {
+  name        = "ap-unicorn-sg-redisrecv"
+  description = "Allow redis traffic"
+  vpc_id      = aws_vpc.main.id
+  
+  egress {
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port = "6379"
+    to_port = "6379"
+  }
+  
   lifecycle {
     ignore_changes = [
       ingress,
