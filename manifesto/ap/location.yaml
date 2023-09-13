@@ -23,7 +23,7 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
       - name: webapp
-        image: 790946953677.dkr.ecr.ap-notheast-2.amazonaws.com/location:latest
+        image: 790946953677.dkr.ecr.ap-northeast-2.amazonaws.com/location:latest
         livenessProbe:
           httpGet:
             path: /healthcheck
@@ -36,7 +36,7 @@ spec:
         command:
           - ./app
           - -region
-          - ap-notheast-2
+          - ap-northeast-2
           - -tokenEndpoint
           - http://token.dev.svc.cluster.local
         resources:

@@ -37,13 +37,13 @@
         {
             "Effect": "Allow",
             "Action": "iam:PassRole",
-            "Resource": "arn:aws:iam::790946953677:role/KarpenterNodeRole-ap-notheast-2",
+            "Resource": "arn:aws:iam::790946953677:role/KarpenterNodeRole-ap-northeast-2",
             "Sid": "PassNodeIAMRole"
         },
         {
             "Effect": "Allow",
             "Action": "eks:DescribeCluster",
-            "Resource": "arn:aws:eks:ap-notheast-2:790946953677:cluster/ap-notheast-2",
+            "Resource": "arn:aws:eks:ap-northeast-2:790946953677:cluster/ap-northeast-2",
             "Sid": "EKSClusterEndpointLookup"
         }
     ],

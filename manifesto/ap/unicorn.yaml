@@ -22,7 +22,7 @@ spec:
       serviceAccount: unicorn
       containers:
       - name: webapp
-        image: 790946953677.dkr.ecr.ap-notheast-2.amazonaws.com/unicorn:latest
+        image: 790946953677.dkr.ecr.ap-northeast-2.amazonaws.com/unicorn:latest
         livenessProbe:
           httpGet:
             path: /healthcheck
@@ -35,7 +35,7 @@ spec:
         command:
           - ./app
           - -region
-          - ap-notheast-2
+          - ap-northeast-2
           - -secretName
           - unicorn/dbcred20230912024422651800000002
           - -tokenEndpoint

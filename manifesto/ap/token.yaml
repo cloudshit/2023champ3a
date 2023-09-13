@@ -21,7 +21,7 @@ spec:
           value: app
       containers:
       - name: webapp
-        image: 790946953677.dkr.ecr.ap-notheast-2.amazonaws.com/token:latest
+        image: 790946953677.dkr.ecr.ap-northeast-2.amazonaws.com/token:latest
         livenessProbe:
           httpGet:
             path: /healthcheck

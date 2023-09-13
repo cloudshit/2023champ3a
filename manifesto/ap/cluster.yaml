@@ -3,7 +3,7 @@ kind: ClusterConfig
 
 metadata:
   name: ap-unicorn-cluster
-  region: ap-notheast-2
+  region: ap-northeast-2
   version: '1.26'
 
 privateCluster:
