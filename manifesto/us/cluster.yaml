@@ -13,15 +13,15 @@ privateCluster:
     - logs
 
 vpc:
-  id: vpc-0f01b30c1a1cdaac3
+  id: vpc-0d2a0e4edcde6d951
   subnets:
     private:
       ap-northeast-2a:
-        id: subnet-0f516155e6856e88d
+        id: subnet-0ea8eab27aceb02f9
       ap-northeast-2b:
-        id: subnet-0479af4eaadc4534d
+        id: subnet-0d334fea47c1d46c3
       ap-northeast-2c:
-        id: subnet-0d05800509573228b
+        id: subnet-04f26561c5e6189ba
 
 managedNodeGroups:
   - name: us-unicorn-nodegroup-tools

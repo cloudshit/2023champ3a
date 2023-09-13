@@ -1,3 +1,17 @@
+apiVersion: vpcresources.k8s.aws/v1beta1
+kind: SecurityGroupPolicy
+metadata:
+  name: token
+  namespace: dev
+spec:
+  podSelector: 
+    matchLabels:
+      app: token
+  securityGroups:
+    groupIds:
+      - sg-0d96193e875836b94 
+      - sg-01883bbe48444e5a5
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -22,11 +36,6 @@ spec:
       containers:
       - name: webapp
         image: 790946953677.dkr.ecr.us-east-1.amazonaws.com/token:latest
-        livenessProbe:
-          httpGet:
-            path: /healthcheck
-            port: 8080
-          periodSeconds: 1
         command:
           - ./app
           - -redisEndpoint
