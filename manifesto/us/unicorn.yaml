@@ -6,7 +6,7 @@ metadata:
 spec:
   podSelector: 
     matchLabels:
-      role: unicorn
+      app: unicorn
   securityGroups:
     groupIds:
       - sg-0ab9c1a588f9486a9
