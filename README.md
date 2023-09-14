@@ -11,7 +11,7 @@ eksctl create iamserviceaccount \
   --name=unicorn \
   --role-name us-unicorn-role \
   --attach-policy-arn=arn:aws:iam::790946953677:policy/us-unicorn-policy-unicorn \
-  --approve
+  --approve --region us-east-1
 
 eksctl create iamserviceaccount \
   --cluster=us-unicorn-cluster \
@@ -19,7 +19,7 @@ eksctl create iamserviceaccount \
   --name=location \
   --role-name us-location-role \
   --attach-policy-arn=arn:aws:iam::790946953677:policy/unicorn-policy-location \
-  --approve
+  --approve --region us-east-1
   
 tolerations:
 - effect: NoSchedule

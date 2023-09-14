@@ -104,7 +104,13 @@ resource "aws_instance" "bastion" {
     chmod 700 get_helm.sh
     ./get_helm.sh
 
-    yum install -y jq curl git mysql
+    yum install -y jq curl git mysql ruby wget
+    
+    wget https://aws-codedeploy-us-east-1.s3.us-east-1.amazonaws.com/latest/install
+    chmod +x ./install
+    ./install auto
+    service codedeploy-agent start
+
     git clone https://github.com/cloudshit/2023champ3a.git /home/ec2-user/2023champ3
     chown ec2-user:ec2-user -R /home/ec2-user/2023champ3
   EOF
